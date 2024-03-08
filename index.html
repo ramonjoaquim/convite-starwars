@@ -222,6 +222,17 @@
             text-transform: uppercase;
         }
 
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(219, 219, 219);
+            z-index: -1;
+            display: none;
+        }
+
         .btn-play-content {
             margin-top: 50vh;
         }
@@ -250,6 +261,7 @@
 
             // Adiciona um ouvinte de evento para o botão de play
             playButton.addEventListener('click', function () {
+                toggleColor()
                 const content = document.getElementsByClassName('conteudo');
                 const intro = document.getElementsByClassName('intro');
                 const contentButtonPlay = document.getElementsByClassName('btn-play-content');
@@ -289,6 +301,33 @@
             return [randomX, randomY];
         }
 
+        function toggleColor() {
+            var overlay = document.getElementById('overlay');
+            overlay.style.display = 'block';
+
+            setTimeout(function () {
+                var startTime = Date.now();
+                var duration = 2500; // Tempo em milissegundos, ajuste conforme necessário
+
+                function updateOverlay() {
+                    var currentTime = Date.now();
+                    var elapsedTime = currentTime - startTime;
+                    var opacity = 1 - (elapsedTime / duration);
+
+                    overlay.style.background = `linear-gradient(rgba(255, 232553, 255, ${opacity}), rgba(198, 115, 28, ${opacity}))`;
+
+                    if (opacity > 0) {
+                        requestAnimationFrame(updateOverlay);
+                    } else {
+                        overlay.style.display = 'none';
+                    }
+                }
+
+                updateOverlay();
+            }, 0);
+        }
+
+
     </script>
 
 </head>
@@ -308,6 +347,8 @@
     <div class="btn-play-content">
         <button id="playButton">Iniciar</button>
     </div>
+
+    <div id="overlay"></div>
 
     <div class="conteudo">
         <section class="intro">
